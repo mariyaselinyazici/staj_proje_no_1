@@ -2,13 +2,13 @@ import streamlit as st
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-# 1. Page Configuration & Headings (All converted to English)
+
 st.set_page_config(page_title="Sentiment Analysis", page_icon="🔬", layout="wide")
 st.title("🔬 LLM Sentiment & Attention Analysis Dashboard")
 st.subheader("Türk Telekom - Project No 1")
 st.write("This application visualizes both the classification predictions of the DistilBERT model and analyzes the underlying syntactic & semantic attention weights (XAI) in real-time.")
 
-# 2. Cached Model Loading
+
 @st.cache_resource
 def load_models():
     model_name = "distilbert-base-uncased-finetuned-sst-2-english"
@@ -19,7 +19,7 @@ def load_models():
 
 tokenizer, model, classifier = load_models()
 
-# 3. User Input Section
+
 st.divider()
 user_input = st.text_input("Enter an English sentence to analyze:", "The movie was not bad, but the sound system was terrible.")
 
@@ -27,7 +27,7 @@ if st.button("Run Model & Analyze", type="primary"):
     if user_input.strip() == "":
         st.warning("Please enter a valid sentence!")
     else:
-        # Layout: Main Prediction Top, Attention Analyses Side-by-Side Bottom
+       
         st.markdown("###  Model Prediction")
         with st.spinner("Generating prediction..."):
             result = classifier(user_input)[0]
@@ -44,7 +44,7 @@ if st.button("Run Model & Analyze", type="primary"):
         st.divider()
         st.markdown("###  Dual Attention Head Analysis (XAI)")
         
-        # Extracting attention distributions from the model
+        
         inputs = tokenizer(user_input, return_tensors='pt')
         with torch.no_grad():
             outputs = model(**inputs)
@@ -52,10 +52,10 @@ if st.button("Run Model & Analyze", type="primary"):
         
         tokens = tokenizer.convert_ids_to_tokens(inputs['input_ids'][0])
         
-        # Creating two clear columns for Syntactic vs Semantic comparison
+        
         col1, col2 = st.columns(2)
         
-        # --- COLUMN 1: SYNTACTIC HEAD (Layer 0, Head 2) ---
+       # SYNTACTİC HEAD 
         with col1:
             st.markdown("####  Syntactic Head (Layer 0, Head 2)")
             st.caption("Focuses on basic grammatical structures, positional weights, and adjacent tokens.")
@@ -70,7 +70,7 @@ if st.button("Run Model & Analyze", type="primary"):
                 st.write(f"**{i}. {token}** — {score * 100:.2f}%")
                 st.progress(min(max(score, 0.0), 1.0))
                 
-        # --- COLUMN 2: SEMANTIC HEAD (Layer 5, Head 0) ---
+        # SEMANTIC HEAD
         with col2:
             st.markdown("#### Semantic Head (Layer 5, Head 0)")
             st.caption("Focuses on deeper contextual meaning, logical contrasts, and sentiment carriers.")
