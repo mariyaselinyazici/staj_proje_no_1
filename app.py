@@ -43,7 +43,7 @@ head_left = st.sidebar.slider("Select Left Head", min_value=0, max_value=11, val
 
 st.sidebar.subheader("Right Visualization Panel")
 layer_right = st.sidebar.slider("Select Right Layer", min_value=0, max_value=5, value=5, step=1)
-head_right = st.sidebar.slider("Select Right Head", min_value=0, max_value=0, value=0, step=1)
+head_right = st.sidebar.slider("Select Right Head", min_value=0, max_value=11, value=5, step=1)
 
 if st.button("Run Model & Analyze", type="primary"):
     if user_input.strip() == "":
