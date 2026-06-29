@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipe
 
 st.set_page_config(page_title="Sentiment Analysis", layout="wide")
 st.title("LLM Sentiment & Attention Analysis Dashboard")
-st.subheader("Türk Telekom - Project No 1")
+st.subheader("First Project")
 st.write("This application visualizes both the classification predictions of the DistilBERT model and analyzes the underlying syntactic & semantic attention weights (XAI) in real-time.")
 
 
